@@ -8,7 +8,7 @@ This repository contains the software to perform sensor fusion by using data fro
 
 # REQUIREMENTS
 
-Download the .yaml file provided to install the environment in Anaconda. It requires Python 3.8 and mainly the libraries *nuscenes-devkit*, *torch*, *open-cv*. *Depth-Anything* also requires its own libraries.
+We uploaded .yaml files of dependencies for Windows and Nvidia Jetson AGX Orin, using Python 3.8. If you prefer to download the dependencies independently, the main libraries are *nuscenes-devkit*, *torch*, *OpenCV*. *Depth-Anything* also requires its own libraries (https://github.com/LiheYoung/Depth-Anything.git).
 
 Also, the Nuscenes dataset is needed (https://www.nuscenes.org/).
 
