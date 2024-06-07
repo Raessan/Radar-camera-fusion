@@ -1,0 +1,6 @@
+Depth-Anything/
+.ipynb_checkpoints/
+__pycache__/
+results/
+.vscode/
+
