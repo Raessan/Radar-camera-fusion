@@ -1,0 +1,3 @@
+[submodule "prepare_dataset/Depth-Anything"]
+	path = prepare_dataset/Depth-Anything
+	url = https://github.com/LiheYoung/Depth-Anything.git
