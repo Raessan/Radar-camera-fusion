@@ -198,6 +198,7 @@ dependencies:
       - mdurl==0.1.2
       - numpy==1.24.4
       - nuscenes-devkit==1.1.11
+      - onnx==1.16.1
       - opencv-python==4.10.0.82
       - orjson==3.10.3
       - pandas==2.0.3
@@ -223,6 +224,7 @@ dependencies:
       - tifffile==2023.7.10
       - tomlkit==0.12.0
       - toolz==0.12.1
+      - torch==2.0.0a0+fe05266f.nv23.4
       - tqdm==4.66.4
       - typer==0.12.3
       - tzdata==2024.1
