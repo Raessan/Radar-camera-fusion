@@ -5,7 +5,7 @@ import numpy as np
 import time
 
 
-def custom_loss(output, lidar, relative_depth_input, l2_lidar=False, alpha=1.0, beta=1.0, gamma=1.0):
+def custom_loss(output, lidar, relative_depth_input, l2_lidar=False, alpha=1.0, beta=1.0, gamma=1.0, power_consistency=1.0):
 
     # Lidar loss
     lidar_loss, _ = depth_loss(output, lidar, l2_lidar)
@@ -17,7 +17,7 @@ def custom_loss(output, lidar, relative_depth_input, l2_lidar=False, alpha=1.0, 
         smoothness_loss = torch.tensor(0.0)
 
     if gamma>0:
-        consistency_loss = calculate_consistency_loss(output, relative_depth_input)
+        consistency_loss = calculate_consistency_loss(output, relative_depth_input, power_consistency)
     else:
         consistency_loss = torch.tensor(0.0)
 
@@ -79,9 +79,8 @@ def calculate_structural_loss(output_depth_batch, input_depth_batch):
     # Return the average loss over the batch
     return avg_loss.mean()
 
-def calculate_consistency_loss(output, relative_depth_input):
-
-    consistency_loss = torch.mean(torch.abs(torch.exp(output)-torch.exp(relative_depth_input)))
+def calculate_consistency_loss(output, relative_depth_input, power=1.0):
+    consistency_loss = torch.mean(torch.abs(output**power-relative_depth_input**power))
     return consistency_loss
 
 def depth_loss(output, lidar_gt, l2_lidar = False):

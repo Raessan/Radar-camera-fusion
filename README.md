@@ -30,7 +30,7 @@ make
 ./inference_tensorrt
 ```
 
-Before building, you may need to adapt the parameters inside the `main.cpp`, which are self-explanatory. To read the samples, you can use those added to the folder *test_data* or use your own. If executed correctly, the program will output the inference time in milliseconds, and also display an image with the result, where the lidar pointcloud is overlapped.
+Before building, you may need to adapt the parameters inside the `main.cpp`, which are self-explanatory. To read the samples, you can use those added to the folder *test_data* or use your own. Be aware that using data of different nature from the Nuscenes dataset may cause worse performance. In that case, you should either train the algorithm with your own dataset or perform some augmentation to the Nuscenes dataset to make data more diverse and similar to yours. If `main.cpp` executed correctly, the program will output the inference time in milliseconds, and also display an image with the result, where the lidar pointcloud is overlapped.
 
 The TensorRT library and NN handler are within the *libs* folder. Nothing should be changed here. However, TensorRT needs C++17 to run right now because it uses the `filesystem` library. If you need to downgrade to C++14, you'll have to remove the usage of `filesystem` and manage the file reading in other way.
 

@@ -40,17 +40,17 @@ constexpr int n_inferences = 10;
 /** \brief Path of the depth anything model*/
 const std::string path_model_depth_anything = "/ssd/Datasets_and_code/nuscenes_depth_estimation/code/models/depth_anything.onnx";
 /** \brief Path of the model of the relative depth-radar algorithm */
-const std::string path_model_radarcam = "/ssd/Datasets_and_code/nuscenes_depth_estimation/code/models/model_2024-06-20_15-22-48_epoch4.onnx";
+const std::string path_model_radarcam = "/ssd/Datasets_and_code/nuscenes_depth_estimation/code/models/model_2024-06-21_23-46-23_epoch8.onnx";
 /** \brief Path to save the TensorRT engine for inference*/
 const std::string path_engine_save = "/ssd/Datasets_and_code/nuscenes_depth_estimation/code/models/";
 /** \brief Path of the image to read*/
-const std::string path_image = "/ssd/Datasets_and_code/nuscenes_depth_estimation/code/test_data/00100_im.jpg";
+const std::string path_image = "/ssd/Datasets_and_code/nuscenes_depth_estimation/code/test_data/00000_im.jpg";
 /** \brief Path of the radar pointcloud */
-const std::string path_radar = "/ssd/Datasets_and_code/nuscenes_depth_estimation/code/test_data/00100_radar_pc.txt";
+const std::string path_radar = "/ssd/Datasets_and_code/nuscenes_depth_estimation/code/test_data/00000_radar_pc.txt";
 /** \brief Path of the lidar pointcloud */
-const std::string path_lidar = "/ssd/Datasets_and_code/nuscenes_depth_estimation/code/test_data/00100_lidar_pc.txt";
+const std::string path_lidar = "/ssd/Datasets_and_code/nuscenes_depth_estimation/code/test_data/00000_lidar_pc.txt";
 /** \brief Path to camera matrix */
-const std::string path_cam_matrix = "/ssd/Datasets_and_code/nuscenes_depth_estimation/code/test_data/00100_cam_matrix.txt";
+const std::string path_cam_matrix = "/ssd/Datasets_and_code/nuscenes_depth_estimation/code/test_data/00000_cam_matrix.txt";
 
 // Other variables needed for inference
 /** \brief Pointer of depth anything model */
