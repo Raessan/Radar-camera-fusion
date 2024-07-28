@@ -1,3 +1,6 @@
 [submodule "prepare_dataset/Depth-Anything"]
 	path = prepare_dataset/Depth-Anything
 	url = https://github.com/LiheYoung/Depth-Anything.git
+[submodule "tensorrt_lib"]
+	path = tensorrt_lib
+	url = https://github.com/Raessan/tensorrt_lib.git
