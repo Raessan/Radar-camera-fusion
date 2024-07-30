@@ -8,4 +8,4 @@ build/
 depth_anything.*
 *.engine.*
 
-use_cases
+use_cases/
