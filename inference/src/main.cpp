@@ -51,6 +51,12 @@ const std::string path_radar = "/ssd/Datasets_and_code/nuscenes_depth_estimation
 const std::string path_lidar = "/ssd/Datasets_and_code/nuscenes_depth_estimation/code/test_data/00000_lidar_pc.txt";
 /** \brief Path to camera matrix */
 const std::string path_cam_matrix = "/ssd/Datasets_and_code/nuscenes_depth_estimation/code/test_data/00000_cam_matrix.txt";
+// DLA core to use. If -1, it does not use it
+int dla_core = -1;
+// GPU index (ORIN only has the 0 index)
+int device_index=0;
+// Batch size. If the model has fixed batch, this has to be 1. If the model has dynamic batch, this can be >1
+int batch_size=1;
 
 // Other variables needed for inference
 /** \brief Pointer of depth anything model */
@@ -133,11 +139,12 @@ cv::Mat do_inference(cv::Mat image,const Eigen::Matrix<float, 3, Eigen::Dynamic>
         }
 
         // PERFORM INFERENCE WITH DEPTH ANYTHING!
-        float * output_nn_depth_anything;
-        nn_handler_depth_anything->run_inference(input_nn_depth_anything, output_nn_depth_anything);
+        std::vector<float> output_nn_depth_anything;
+        // Run inference. The data is on the CPU (from_device=false)
+        nn_handler_depth_anything->run_inference(input_nn_depth_anything, output_nn_depth_anything, false);
 
         // Get the output in cv::Mat format
-        cv::Mat im_output_depth_anything(h_depth_anything, w_depth_anything, CV_32FC1, output_nn_depth_anything);
+        cv::Mat im_output_depth_anything(h_depth_anything, w_depth_anything, CV_32FC1, output_nn_depth_anything.data());
 
         // Now we start preparing the input to the radar-cam NN. It requires a resize and normalization
         cv::Mat im_input_radarcam;
@@ -155,13 +162,14 @@ cv::Mat do_inference(cv::Mat image,const Eigen::Matrix<float, 3, Eigen::Dynamic>
         input_radarcam[1][0] = radar_adapted.data();
 
         // Now we create the output of the NN
-        float * output_radarcam;
+        std::vector<float> output_radarcam;
 
         // INFERENCE WITH THE RADAR_CAM NN!
-        nn_handler_radarcam->run_inference(input_radarcam, output_radarcam);
+        // Run inference. The data is on the CPU (from_device=false)
+        nn_handler_radarcam->run_inference(input_radarcam, output_radarcam, false);
 
         // We extract the cv::Mat from the pointer
-        cv::Mat im_output_radarcam(h_nn_radarcam, w_nn_radarcam, CV_32FC1, output_radarcam);
+        cv::Mat im_output_radarcam(h_nn_radarcam, w_nn_radarcam, CV_32FC1, output_radarcam.data());
         // Undo normalization so the output lies between min_dist and max_dist
         im_output_radarcam = im_output_radarcam * (max_dist - min_dist) + min_dist;
 
@@ -202,8 +210,8 @@ int main(){
     }
 
     // Initialize inferencers
-    nn_handler_depth_anything = std::make_unique<NNHandler>(path_model_depth_anything, path_engine_save, Precision::FP16);
-    nn_handler_radarcam = std::make_unique<NNHandler>(path_model_radarcam, path_engine_save, Precision::FP16);
+    nn_handler_depth_anything = std::make_unique<NNHandler>(path_model_depth_anything, path_engine_save, Precision::FP16, dla_core, device_index, batch_size);
+    nn_handler_radarcam = std::make_unique<NNHandler>(path_model_radarcam, path_engine_save, Precision::FP16, dla_core, device_index, batch_size);
 
     // Transformation of the projection matrix after resizing image
     float scale_x = static_cast<float>(w_nn_radarcam)/w_original;
