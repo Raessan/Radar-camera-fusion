@@ -7,3 +7,5 @@ results/
 build/
 depth_anything.*
 *.engine.*
+
+use_cases

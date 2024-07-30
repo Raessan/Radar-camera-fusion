@@ -19,8 +19,8 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(include)
 
 # To compile the library of TensorRT
-add_subdirectory(libs/tensorrt_cpp_api)
-add_subdirectory(libs/nn_handler_lib)
+add_subdirectory(tensorrt_lib/tensorrt_cpp/tensorrt_cpp_lib)
+add_subdirectory(tensorrt_lib/tensorrt_cpp/nn_handler_lib)
 
 # To compile the main program
 add_executable(inference_tensorrt src/main.cpp)
