@@ -1,0 +1,6 @@
+[submodule "inference/tensorrt_lib"]
+	path = inference/tensorrt_lib
+	url = https://github.com/Raessan/tensorrt_lib.git
+[submodule "prepare_dataset/Depth-Anything"]
+	path = prepare_dataset/Depth-Anything
+	url = https://github.com/LiheYoung/Depth-Anything.git
