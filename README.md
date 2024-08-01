@@ -34,6 +34,8 @@ Before building, you may also need to adapt the parameters inside the `main.cpp`
 
 The TensorRT library and NN handler are within the *libs* folder. Nothing should be changed here. However, TensorRT needs C++17 to run right now because it uses the `filesystem` library. If you need to downgrade to C++14, you'll have to remove the usage of `filesystem` and manage the file reading in other way.
 
+Finally, sometimes OpenCV does not plot correctly the output the first time, but if you rerun the inference program, it will display it correctly.
+
 # INSIGHT INTO THE ALGORITHM
 
 ## General explanation
