@@ -2,6 +2,3 @@
 	path = inference/tensorrt_lib
 	url = https://github.com/Raessan/tensorrt_lib.git
 	branch = main
-[submodule "prepare_dataset/Depth-Anything"]
-	path = prepare_dataset/Depth-Anything
-	url = https://github.com/LiheYoung/Depth-Anything.git
