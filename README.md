@@ -20,17 +20,17 @@ Also, the [NuScenes](https://www.nuscenes.org/nuscenes) dataset is needed (https
 
 # STEPS FOR INFERENCE
 
-An inference folder that employs TensorRT in C++ is also present. It has been tested in Nvidia ORIN, which supports TensorRT through its Jetpack 5.1. You need to add your Depth Anything model in .onnx format inside the *models* folder. In order to build the package and execute, go to the *inference* folder and type:
+An inference folder that employs TensorRT in C++ is also present. It has been tested in Nvidia ORIN, which supports TensorRT through its Jetpack 5.1. You need to add your Depth Anything model in .onnx format inside the *models* folder. I included two files, one called `inference_cpu.cpp` and the other called `inference_gpu.cpp`. The former contains the data on the CPU and only is sent to the GPU when performing inference (this is done automatically by TensorRT). The latter keeps the data on the GPU between the first and second inference and uses the `cv::cuda::GpuMat` to contain this data. ONLY TRY TO COMPILE `inference_gpu.cpp` IF YOU HAVE CV WITH CUDA SUPPORT (there are numerous guides to install it in case you don't have it). If you don't want to compile, just comment the last two lines of the `CMakelists.txt`. In order to build the package and execute, go to the *inference* folder and type:
 
 ```bash
 mkdir build
 cd build
 cmake ..
 make
-./inference_tensorrt
+./inference_cpu
 ```
 
-Before building, you may need to adapt the parameters inside the `main.cpp`, which are self-explanatory. To read the samples, you can use those added to the folder *test_data* or use your own. Be aware that using data of different nature from the [NuScenes](https://www.nuscenes.org/nuscenes) dataset may cause worse performance. In that case, you should either train the algorithm with your own dataset or perform some augmentation to the [NuScenes](https://www.nuscenes.org/nuscenes) dataset to make data more diverse and similar to yours. If `main.cpp` executed correctly, the program will output the inference time in milliseconds, and also display an image with the result, where the LiDAR pointcloud is overlapped.
+Before building, you may also need to adapt the parameters inside the `main.cpp`, which are self-explanatory. To read the samples, you can use those added to the folder *test_data* or use your own. Be aware that using data of different nature from the [NuScenes](https://www.nuscenes.org/nuscenes) dataset may cause worse performance. In that case, you should either train the algorithm with your own dataset or perform some augmentation to the [NuScenes](https://www.nuscenes.org/nuscenes) dataset to make data more diverse and similar to yours. If `main.cpp` executed correctly, the program will output the inference time in milliseconds, and also display an image with the result, where the LiDAR pointcloud is overlapped.
 
 The TensorRT library and NN handler are within the *libs* folder. Nothing should be changed here. However, TensorRT needs C++17 to run right now because it uses the `filesystem` library. If you need to downgrade to C++14, you'll have to remove the usage of `filesystem` and manage the file reading in other way.
 

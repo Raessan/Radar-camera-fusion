@@ -23,5 +23,8 @@ add_subdirectory(tensorrt_lib/tensorrt_cpp/tensorrt_cpp_lib)
 add_subdirectory(tensorrt_lib/tensorrt_cpp/nn_handler_lib)
 
 # To compile the main program
-add_executable(inference_tensorrt src/main.cpp)
-target_link_libraries(inference_tensorrt PRIVATE nn_handler_lib ${OpenCV_LIBS})
+add_executable(inference_cpu src/inference_cpu.cpp)
+target_link_libraries(inference_cpu PRIVATE nn_handler_lib ${OpenCV_LIBS})
+
+add_executable(inference_gpu src/inference_gpu.cpp)
+target_link_libraries(inference_gpu PRIVATE nn_handler_lib ${OpenCV_LIBS})

@@ -1,8 +1,8 @@
 #include <iostream>
 #include <eigen3/Eigen/Dense>
-#include <opencv4/opencv2/core.hpp>
-#include <opencv4/opencv2/highgui.hpp>
-#include <opencv4/opencv2/dnn.hpp>
+#include <opencv2/core.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/dnn.hpp>
 #include <opencv2/imgproc.hpp> 
 #include <set>
 #include <random>
@@ -36,7 +36,7 @@ constexpr double max_dist = 50.0;
 /** \brief Number of inferences for warmup */
 constexpr int n_inferences_warmup = 10;
 /** \brief Number of inferences to calculate the average time */
-constexpr int n_inferences = 10;
+constexpr int n_inferences = 100;
 /** \brief Path of the depth anything model*/
 const std::string path_model_depth_anything = "/ssd/Datasets_and_code/nuscenes_depth_estimation/code/models/depth_anything.onnx";
 /** \brief Path of the model of the relative depth-radar algorithm */
@@ -67,7 +67,7 @@ std::unique_ptr<NNHandler> nn_handler_radarcam;
 
 /** \brief Define random number generator */
 std::random_device rd;
-std::mt19937 mt;
+std::mt19937 mt(42);
 std::uniform_int_distribution<int> distribution;
 
 
@@ -145,6 +145,7 @@ cv::Mat do_inference(cv::Mat image,const Eigen::Matrix<float, 3, Eigen::Dynamic>
 
         // Get the output in cv::Mat format
         cv::Mat im_output_depth_anything(h_depth_anything, w_depth_anything, CV_32FC1, output_nn_depth_anything.data());
+        
 
         // Now we start preparing the input to the radar-cam NN. It requires a resize and normalization
         cv::Mat im_input_radarcam;
@@ -154,11 +155,13 @@ cv::Mat do_inference(cv::Mat image,const Eigen::Matrix<float, 3, Eigen::Dynamic>
         // This step is necessary because Depth Anything outputs inverses of depth
         im_input_radarcam = 1.0f - im_input_radarcam;
 
+
         // Input of 2nd NN
+        //std::cout << "Is the CPU matrix continuous?: " << im_input_radarcam.isContinuous() << std::endl;
         std::vector<std::vector<float *>> input_radarcam(2);
         input_radarcam[0].resize(1);
         input_radarcam[1].resize(1);
-        input_radarcam[0][0] = reinterpret_cast<float*>(im_input_radarcam.data);
+        input_radarcam[0][0] = im_input_radarcam.ptr<float>();
         input_radarcam[1][0] = radar_adapted.data();
 
         // Now we create the output of the NN
