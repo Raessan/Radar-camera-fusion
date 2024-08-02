@@ -20,7 +20,7 @@ Also, the [NuScenes](https://www.nuscenes.org/nuscenes) dataset is needed (https
 
 # STEPS FOR INFERENCE
 
-An inference folder that employs TensorRT in C++ is also present. It has been tested in Nvidia ORIN, which supports TensorRT through its Jetpack 5.1. You need to add your Depth Anything model in .onnx format inside the *models* folder. I included two files, one called `inference_cpu.cpp` and the other called `inference_gpu.cpp`. The former contains the data on the CPU and only is sent to the GPU when performing inference (this is done automatically by TensorRT). The latter keeps the data on the GPU between the first and second inference and uses the `cv::cuda::GpuMat` to contain this data. ONLY TRY TO COMPILE `inference_gpu.cpp` IF YOU HAVE CV WITH CUDA SUPPORT (there are numerous guides to install it in case you don't have it). If you don't want to compile, just comment the last two lines of the `CMakelists.txt`. In order to build the package and execute, go to the *inference* folder and type:
+An inference folder that employs TensorRT in C++ is also present, which uses  [this library](https://github.com/Raessan/tensorrt_lib). It has been tested in Nvidia ORIN, which supports TensorRT through its Jetpack 5.1. You need to add your Depth Anything model in .onnx format inside the *models* folder. I included two files, one called `inference_cpu.cpp` and the other called `inference_gpu.cpp`. The former contains the data on the CPU and only is sent to the GPU when performing inference (this is done automatically by TensorRT). The latter keeps the data on the GPU between the first and second inference and uses the `cv::cuda::GpuMat` to contain this data. ONLY TRY TO COMPILE `inference_gpu.cpp` IF YOU HAVE CV WITH CUDA SUPPORT (there are numerous guides to install it in case you don't have it). If you don't want to compile, just comment the last two lines of the `CMakelists.txt`. In order to build the package and execute, go to the *inference* folder and type:
 
 ```bash
 mkdir build
@@ -138,7 +138,7 @@ The algorithm has been evaluated with the test set of [NuScenes](https://www.nus
 | **Max distances (m)**  | 10 | 20   | 30  | 40 | 50   |
 |----------|----------------|----------|----------|----------------|----------|
 | **Absolute error (m)**   | 0.37         | 0.77   | 1.21   | 1.50        | 1.75   |
-| **Relative error (m)**   | 3.70         | 3.85   | 4.03   | 3.75        | 3.50   |
+| **Relative error (%)**   | 3.70         | 3.85   | 4.03   | 3.75        | 3.50   |
 
 
 ## References
